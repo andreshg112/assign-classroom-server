@@ -3,7 +3,7 @@
 require_once './models/Recibo.php';
 
 function get_recibo($id) {
-    $instancia = Recibo::find($id);
+    $instancia = Reserva::find($id);
     $respuesta = new stdClass();
     if ($instancia) {
         $respuesta->result = $instancia;
@@ -16,7 +16,7 @@ function get_recibo($id) {
 
 function get_all_recibos() {
     $respuesta = new stdClass();
-    $respuesta->result = Recibo::all();
+    $respuesta->result = Reserva::all();
     if (count($respuesta->result) == 0) {
         $respuesta->result = false;
         $respuesta->mensaje = "No hay registros.";
@@ -27,7 +27,7 @@ function get_all_recibos() {
 function post_recibo() {
     $request = \Slim\Slim::getInstance()->request();
     $recibido = json_decode($request->getBody());
-    $instancia = new Recibo((array) $recibido);
+    $instancia = new Reserva((array) $recibido);
     //$instancia->add_data($recibido);
     $respuesta = new stdClass();
     $respuesta->result = $instancia->save();
@@ -41,7 +41,7 @@ function post_recibo() {
 }
 
 function delete_recibo($id) {
-    $instancia = Recibo::find($id);
+    $instancia = Reserva::find($id);
     $respuesta = new stdClass();
     if ($instancia) {
         $respuesta->result = $instancia->delete();
@@ -60,7 +60,7 @@ function delete_recibo($id) {
 function put_recibo($id) {
     $request = \Slim\Slim::getInstance()->request();
     $recibido = json_decode($request->getBody());
-    $instancia = Recibo::find($id);
+    $instancia = Reserva::find($id);
     $instancia->fill((array) $recibido);
     //HugeForm::find($id)->update($post_data); Actualización con mass assigment. Similar a la anterior.
     $respuesta = new stdClass();
