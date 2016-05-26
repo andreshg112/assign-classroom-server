@@ -46,10 +46,10 @@ function delete_reserva($id) {
     if ($instancia) {
         $respuesta->result = $instancia->delete();
         if ($instancia->trashed()) {
-            $respuesta->mensaje = "Eliminado correctamente.";
+            $respuesta->mensaje = "Cancelado correctamente.";
             $respuesta->eliminado = $instancia;
         } else {
-            $respuesta->mensaje = "Error tratando de eliminar.";
+            $respuesta->mensaje = "Error tratando de cancelar.";
         }
     } else {
         $respuesta->mensaje = "No se encuentra registrado.";
