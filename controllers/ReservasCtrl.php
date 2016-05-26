@@ -1,8 +1,8 @@
 <?php
 
-require_once './models/Recibo.php';
+require_once './models/Reserva.php';
 
-function get_recibo($id) {
+function get_reserva($id) {
     $instancia = Reserva::find($id);
     $respuesta = new stdClass();
     if ($instancia) {
@@ -14,7 +14,7 @@ function get_recibo($id) {
     echo json_encode($respuesta);
 }
 
-function get_all_recibos() {
+function get_all_reservas() {
     $respuesta = new stdClass();
     $respuesta->result = Reserva::all();
     if (count($respuesta->result) == 0) {
@@ -24,7 +24,7 @@ function get_all_recibos() {
     echo json_encode($respuesta);
 }
 
-function post_recibo() {
+function post_reserva() {
     $request = \Slim\Slim::getInstance()->request();
     $recibido = json_decode($request->getBody());
     $instancia = new Reserva((array) $recibido);
@@ -40,12 +40,12 @@ function post_recibo() {
     echo json_encode($respuesta);
 }
 
-function delete_recibo($id) {
+function delete_reserva($id) {
     $instancia = Reserva::find($id);
     $respuesta = new stdClass();
     if ($instancia) {
         $respuesta->result = $instancia->delete();
-        if ($instancia->result) {
+        if ($instancia->trashed()) {
             $respuesta->mensaje = "Eliminado correctamente.";
             $respuesta->eliminado = $instancia;
         } else {
@@ -57,7 +57,7 @@ function delete_recibo($id) {
     echo json_encode($respuesta);
 }
 
-function put_recibo($id) {
+function put_reserva($id) {
     $request = \Slim\Slim::getInstance()->request();
     $recibido = json_decode($request->getBody());
     $instancia = Reserva::find($id);
