@@ -28,14 +28,20 @@ function post_reserva() {
     $request = \Slim\Slim::getInstance()->request();
     $recibido = json_decode($request->getBody());
     $instancia = new Reserva((array) $recibido);
-    //$instancia->add_data($recibido);
     $respuesta = new stdClass();
-    $respuesta->result = $instancia->save();
-    if ($respuesta->result) {
-        $respuesta->mensaje = "Registrado correctamente.";
-        $respuesta->result = $instancia;
+    $cruce = Reserva::hayCruce($instancia);
+    if ($cruce) {
+        var_dump($cruce);
+        $respuesta->result = false;
+        $respuesta->mensaje = "Hay cruce de horarios con $cruce->asunto.";
     } else {
-        $respuesta->mensaje = "No se pudo registrar.";
+        $respuesta->result = $instancia->save();
+        if ($respuesta->result) {
+            $respuesta->mensaje = "Registrado correctamente.";
+            $respuesta->result = $instancia;
+        } else {
+            $respuesta->mensaje = "No se pudo registrar.";
+        }
     }
     echo json_encode($respuesta);
 }
